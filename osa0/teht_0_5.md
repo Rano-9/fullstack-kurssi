@@ -1,3 +1,4 @@
+```mermaid
 sequenceDiagram
     participant browser
     participant server
@@ -25,3 +26,4 @@ sequenceDiagram
     deactivate server    
 
     Note right of browser: When data is fetched browser finds form element and assigns onSubmit function to it.
+```

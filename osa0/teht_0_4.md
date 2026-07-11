@@ -1,3 +1,4 @@
+```mermaid
 sequenceDiagram
     participant browser
     participant server
@@ -11,4 +12,4 @@ sequenceDiagram
     deactivate server
     
     note right of  browser: browser redirects /exampleapp/notes (reloads page) 
-
+```
