@@ -64,8 +64,8 @@ const App = () => {
         if (window.confirm(`delete ${person.name}?`)) {
             personsService.del(person.id)
               .then(deletedPerson => {
-                setPersons(persons.filter(person => {if (person.id !== deletedPerson.id) return person }))
-                setNotification(`${deletedPerson.name} was deleted.`)
+                setPersons(persons.filter(leftPerson => {if (leftPerson.id !== person.id) return person }))
+                setNotification(`${person.name} was deleted.`)
                 setTimeout(() => {
                   setNotification(null)
                 }, 5000);
@@ -78,7 +78,7 @@ const App = () => {
               })
         }
     }
-  const personsToShow = filter === "" ? persons.map(person => person)
+    const personsToShow = filter === "" ? persons.map(person => person)
     : persons.filter(person => person.name.toLowerCase().includes(filter.toLocaleLowerCase()) ? person : null )
   return (
     <div>
