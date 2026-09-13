@@ -78,10 +78,8 @@ const App = () => {
               })
         }
     }
-
   const personsToShow = filter === "" ? persons.map(person => person)
-    : persons.map(person => person.name.toLowerCase().includes(filter) ? person : null)
-
+    : persons.filter(person => person.name.toLowerCase().includes(filter.toLocaleLowerCase()) ? person : null )
   return (
     <div>
       <Notification message={notification} errors ={errors}/>

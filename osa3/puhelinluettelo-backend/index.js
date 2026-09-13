@@ -7,6 +7,7 @@ const cors = require("cors")
 app.use(cors())
 app.use(express.json())
 app.use(morgan("tiny"))
+app.use(express.static('dist'))
 
 
 let persons = [
@@ -36,11 +37,6 @@ const generateId = () => {
   const generatedId = Math.floor(Math.random() * 100000)
   return String(generatedId)
 }
-
-
-app.get('/', (request, response) => {
-  response.send('<h1>Hello World!</h1>')
-})
 
 app.get('/info', (request, response) => {
   response.send(`<p>Phonebook has info for ${persons.length} people</p>
