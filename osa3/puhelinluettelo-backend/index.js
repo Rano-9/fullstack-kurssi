@@ -1,22 +1,22 @@
 require('dotenv').config()
 
 const express = require('express')
-const Person = require("./models/person")
+const Person = require('./models/person')
 
 const app = express()
 app.use(express.static('dist'))
 app.use(express.json())
 
-const morgan = require("morgan")
-app.use(morgan("tiny"))
+const morgan = require('morgan')
+app.use(morgan('tiny'))
 
-app.get('/info', (request, response) => {
+app.get('/info', (request, response,next) => {
   Person.countDocuments().then(count => response.send(`<p>Phonebook has info for ${count} people</p>
       <p>${new Date()}</p>
     `))
-  .catch( error => {
-    next(error)
-  })
+    .catch( error => {
+      next(error)
+    })
 })
 
 app.get('/api/persons', (request, response) => {
@@ -27,12 +27,12 @@ app.get('/api/persons', (request, response) => {
 
 app.get('/api/persons/:id', (request, response, next) => {
   const id = request.params.id
-  const person = Person.findById(id).then(person =>  {
+  Person.findById(id).then(person =>  {
     if (person){
       response.json(person)
     }
     else {
-      response.status(404).send({error : "no person found"})
+      response.status(404).send({error : 'no person found'})
     }
   }).catch( error => next(error))
 })
@@ -48,7 +48,7 @@ app.post('/api/persons', (request, response,next) => {
   person.save().then(savedPerson => {
     response.json(savedPerson)
   })
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 
 app.delete('/api/persons/:id', (request, response) => {
@@ -61,16 +61,16 @@ app.delete('/api/persons/:id', (request, response) => {
 app.put('/api/persons/:id',(request,response,next) => {
   const {number} = request.body
   Person.findById(request.params.id)
-  .then( person => {
-    if (!person) {
-      return response.status(404).end()
-    }
-    person.number = number
-    return person.save().then(updatedPerson => {
-      response.json(updatedPerson)
+    .then( person => {
+      if (!person) {
+        return response.status(404).end()
+      }
+      person.number = number
+      return person.save().then(updatedPerson => {
+        response.json(updatedPerson)
+      })
     })
-  })
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 
 const PORT = process.env.PORT
@@ -89,9 +89,9 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
-  } else if (error.name === "ValidationError"){
+  } else if (error.name === 'ValidationError'){
     return response.status(400).json({error:error.message})
-    }
+  }
 
   next(error)
 }

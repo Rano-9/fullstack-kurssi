@@ -1,12 +1,10 @@
-const mongoose = require("mongoose")
-
-const password = process.argv[2]
+const mongoose = require('mongoose')
 
 const url = process.env.MONGODB_URI
 
 mongoose.set('strictQuery', false)
 mongoose.connect(url, { family: 4 })
-  .then(result => {
+  .then(() => {
     console.log('connected to MongoDB')
   })
   .catch((error) => {
@@ -22,12 +20,12 @@ const personSchema = new mongoose.Schema({
   number: {
     type: String,
     validate: {
-        validator: v => {
-            return /^(\d{2}-\d{6,}|\d{3}-\d{5,})$/.test(v)
-        },
-        message: props => `${props.value} is not valid phone number!` 
+      validator: v => {
+        return /^(\d{2}-\d{6,}|\d{3}-\d{5,})$/.test(v)
+      },
+      message: props => `${props.value} is not valid phone number!` 
     },
-    required: [true, "Phone number is required"],
+    required: [true, 'Phone number is required'],
   },
 })
 
@@ -38,4 +36,4 @@ personSchema.set('toJSON', {
     delete returnedObject.__v
   }
 })
-module.exports = mongoose.model("Person", personSchema)
+module.exports = mongoose.model('Person', personSchema)
