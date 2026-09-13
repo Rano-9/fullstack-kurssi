@@ -34,7 +34,7 @@ const App = () => {
           }, 5000);
         })
         .catch( error => {
-          setErrors(`error happened. Person is deleted from database`)
+          setErrors(error.response.data)
           setTimeout(() => {
             setErrors(null)
           }, 5000);
@@ -53,6 +53,12 @@ const App = () => {
             setNotification(null)
           }, 5000);
         })
+        .catch( error => {
+          setErrors(error.response.data.error)
+          setTimeout(() => {
+            setErrors(null)
+          }, 5000);
+        })
       
         setNewName("")
       setNewNumber("")
@@ -63,8 +69,8 @@ const App = () => {
   const handleDelete = person => {
         if (window.confirm(`delete ${person.name}?`)) {
             personsService.del(person.id)
-              .then(deletedPerson => {
-                setPersons(persons.filter(leftPerson => {if (leftPerson.id !== person.id) return person }))
+              .then(() => {
+                setPersons(persons.filter(leftPerson => {if (leftPerson.id !== person.id) return leftPerson }))
                 setNotification(`${person.name} was deleted.`)
                 setTimeout(() => {
                   setNotification(null)
